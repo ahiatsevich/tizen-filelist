@@ -21,6 +21,8 @@
 #include <Eina.h>
 #include <stdbool.h>
 
+#include "app-types.h"
+
 /**
  * @brief Appends input strings into new one
  * @remark result string is newly allocated string, so it must be free after use
@@ -56,6 +58,8 @@ void common_util_clear_file_list(Eina_List **file_list);
  * @param[in]       file_list   File list to clear
  */
 void common_util_clear_storage_list(Eina_List **storage_list);
+
+int common_util_clone_node_info(node_info *src, node_info **dest);
 
 /**
  * @brief Gets the filename from a give path

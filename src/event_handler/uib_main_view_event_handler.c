@@ -72,15 +72,18 @@ void main_view_main_view_onuib_view_create(uib_main_view_view_context *vc,
 				{
 					DBG("File: %s/%s", file_item->parent_path, file_item->name);
 
+					node_info *clone = NULL;
+					common_util_clone_node_info(file_item, &clone);
+
 					Elm_Object_Item *node_item = elm_genlist_item_append(
-							vc->file_genlist, context.itc, file_item, NULL,
+							vc->file_genlist, context.itc, clone, NULL,
 							ELM_GENLIST_ITEM_NONE, NULL, NULL);
 
-					elm_object_item_data_set(node_item, file_item);
+					elm_object_item_data_set(node_item, clone);
 				}
 			}
 
-			//common_util_clear_file_list(&file_list); // TODO: memory leak
+			common_util_clear_file_list(&file_list); // TODO: memory leak
 		}
 
 		common_util_clear_storage_list(&storage_list);
@@ -117,12 +120,14 @@ int _get_file_list_recursively(fs_manager *manager, const char *root_dir_path,
 					break;
 				}
 			} else if (node->type != FILE_TYPE_NONE) {
-				*file_list = eina_list_append(*file_list, node);
+				node_info *clone = NULL;
+				common_util_clone_node_info(node, &clone);
+				*file_list = eina_list_append(*file_list, clone);
 			}
 		}
 	}
 
-	//common_util_clear_file_list(&node_list); // TODO: memory leak
+	common_util_clear_file_list(&node_list); // TODO: memory leak
 
 	return result;
 }

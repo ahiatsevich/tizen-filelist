@@ -117,6 +117,27 @@ void common_util_clear_storage_list(Eina_List **storage_list)
 	}
 }
 
+int common_util_clone_node_info(node_info *src_node, node_info **dest_node)
+{
+	RETVM_IF(!src_node, RESULT_TYPE_INVALID_ARG, "Source node is empty");
+	RETVM_IF(!dest_node, RESULT_TYPE_INVALID_ARG, "Destination node pointer is NULL");
+
+	*dest_node = calloc(1, sizeof(node_info));
+	if (*dest_node) {
+		(*dest_node)->name = strdup(src_node->name);
+		(*dest_node)->full_path = strdup(src_node->full_path);
+		(*dest_node)->size = src_node->size;
+		(*dest_node)->size_free = src_node->size_free;
+		(*dest_node)->parent_path = strdup(src_node->parent_path);
+		(*dest_node)->type = src_node->type;
+		(*dest_node)->is_selected = src_node->is_selected;
+	} else {
+		ERR("Failed to allocate memory");
+		return RESULT_TYPE_FAIL_ALLOCATE_MEMORY;
+	}
+	return RESULT_TYPE_OK;
+}
+
 const char *common_util_get_filename(const char *path)
 {
 	char *result = NULL;
