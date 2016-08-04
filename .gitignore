@@ -1,0 +1,7 @@
+Debug
+src/managed
+Release
+.sign
+.rds_delta
+.package-stamp
+.sdk_delta.info
